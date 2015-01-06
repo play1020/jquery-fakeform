@@ -4,6 +4,7 @@
 
 <title> fake form with jquery </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="./jquery-fakeform-0.5.js"></script>
@@ -111,7 +112,7 @@ pre code .string,
 pre code .string * { color: #e6db72; }
 pre code .comment,
 pre code .comment * { color: #6c6d5e; }
-pre code .focus { font-style: italic; text-decoration: underline; padding: 0 0.2em; border-radius: 2px; background: #454545; display: inline-block; }
+pre code .focus { font-style: italic; -text-decoration: underline; border-radius: 3px; background: #49483e; display: inline-block; outline: 1px solid #222218; }
 
 </style>
 </head>
@@ -996,14 +997,15 @@ $('button.codes').each(function() {
 
 // syntax highlight
 function highlight() {
-	var type = this.getAttribute('data-type');
+	var type = this.getAttribute('data-type'),
+		innerhtml = this.innerHTML;
 	if (type == 'html') {
-		this.innerHTML = this.innerHTML
+		innerhtml = innerhtml
 			.replace(/([a-z-]+)=("[^"]*")/gm, '<span class="attribute">$1</span>=<span class="attributevalue">$2</span>')
 			.replace(/&lt;([a-z]+)/igm, '&lt;<span class="tag">$1</span>')
 			.replace(/&lt;\/([a-z]+)/igm, '&lt;/<span class="tag">$1</span>')
 	} else if (type == 'js') {
-		this.innerHTML = this.innerHTML
+		innerhtml = innerhtml
 			.replace(/"(.+)"/gm, '<span class="string">\"$1\"</span>')
 			.replace(/'(.+)'/gm, '<span class="string">\'$1\'</span>')
 			.replace(/var( |\n)/gm, '<span class="functionvar">var$1</span>')
@@ -1013,11 +1015,12 @@ function highlight() {
 			.replace(/(true|false)/gm, '<span class="boolean">$1</span>')
 			.replace(/(function) (.+)\((.+)?\)/gm, '<span class="functionvar">$1</span> <span class="functionname">$2</span>(<span class="functionargument">$3</span>)')
 			.replace(/(\/\/.+)$/gm, '<span class="comment">$1</span>')
-			.replace(/(\/\*(?!\*\/)[^]+\*\/)/gm, '<span class="comment">$1</span>');
+			.replace(/(\/\*(?!\*\/)[^ㅴ]+\*\/)/gm, '<span class="comment">$1</span>');
 	}
-	this.innerHTML = this.innerHTML
+	this.innerHTML = innerhtml
 			.replace(/\[\[(.+)\]\]/gm, '<span class="focus">$1</span>')
-			.replace(/\t/gm, '    ');
+			.replace(/\t/gm, '    ')
+			.replace(/\n\r/g, '<br>');
 }
 $('pre').each(highlight);
 </script>
