@@ -530,7 +530,7 @@
 					$titles[currentindex].hide();
 				}
 
-				currentoptions.title.widthminus = ( boxsizingable && $titles[currentindex].css('boxSizing') == 'border-box' )? 0 : (parseInt($titles[currentindex].css('borderLeftWidth')) || 0) + (parseInt($titles[currentindex].css('borderRightWidth')) || 0) + parseInt($titles[currentindex].css('paddingLeft')) + parseInt($titles[currentindex].css('paddingRight'));
+				currentoptions.title.widthminus = getinfluencewidthvalue($titles[currentindex]);
 
 				$titleinners[currentindex] = getdeepistchild($titles[currentindex]);
 
@@ -696,6 +696,10 @@
 			}
 		}
 
+		function getinfluencewidthvalue($target) {
+			return ( boxsizingable && $target.css('boxSizing') == 'border-box' )? 0 : (parseInt($target.css('borderLeftWidth')) || 0) + (parseInt($target.css('borderRightWidth')) || 0) + parseInt($target.css('paddingLeft')) + parseInt($target.css('paddingRight'));
+		}
+
 		function addoptionlayer(index) {
 
 			var
@@ -719,7 +723,7 @@
 			$currentoption.css('visibility', 'hidden').appendTo($body);
 
 			if ( options[index].option.widthminus === undefined ) {
-				options[index].option.widthminus = $currentoption[0].offsetWidth - $currentoption[0].clientWidth;
+				options[index].option.widthminus = getinfluencewidthvalue($currentoption); 
 			}
 
 			$currentoption.css('width', width);
