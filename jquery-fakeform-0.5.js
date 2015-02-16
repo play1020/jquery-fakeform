@@ -20,7 +20,7 @@
 			// 해당 input에 아래 클래스 추가 또는 제거.
 			classname: 'placeholder',
 			// placeholder를 지원하는 브라우저에도 사용할 것인지 여부.
-			useall: true
+			useall: false
 		},
 
 
@@ -118,6 +118,11 @@
 				// 레이어가 타이틀 상단에 위치하는 경우 포지션
 				upperposition: 1,
 
+				// 레이어 넓이를 글자 길이에 맞게 자동으로 지정할 것인지 여부.
+				// true 인 경우 select 태그 넓이와, 레이어 넓이 중 큰 값으로 지정.
+				// false 인 경우 select 태그 넓이 만큼만 지정.
+				autowidth: true,
+
 				// CSS z-index
 				zindex: 10,
 
@@ -200,7 +205,7 @@
 			$currenttarget = $(target);
 			$currenttarget
 				.data({ placeholder: placeholder, classname: currentoption.classname })
-				.removeAttr('placeholder')
+				// .removeAttr('placeholder')
 				.bind('focus blur', checkstates);
 
 			checkstates.call($currenttarget[0]);
@@ -380,6 +385,7 @@
 				}
 				$target.click();
 			}
+			return false;
 		}
 
 		function checkdisabled(target) {
@@ -532,15 +538,15 @@
 
 				currentoptions.title.widthminus = getinfluencewidthvalue($titles[currentindex]);
 
-				$titleinners[currentindex] = getdeepistchild($titles[currentindex]);
+				$titleinners[currentindex] = getdeepestchild($titles[currentindex]);
 
 				$selects[currentindex].insertBefore($titles[currentindex]);
 				$titles[currentindex].before(' ');
 
-				$options[currentindex] = $('<'+ currentoptions.option.tagname +' class="'+ currentoptions.option.classname.base +'" '+ widthdataname +'="'+ ( $selects[currentindex].attr(widthdataname) || 0 ) +'" '+ lengthdataname +'="'+ ( $selects[currentindex].attr(lengthdataname) || currentoptions.option.maxlength ) +'" />')
+				$options[currentindex] = $('<'+ currentoptions.option.tagname +' class="'+ currentoptions.option.classname.base +'" '+ widthdataname +'="'+ ( $selects[currentindex].attr(widthdataname) || ( currentoptions.option.autowidth ? 'auto' : 0 ) ) +'" '+ lengthdataname +'="'+ ( $selects[currentindex].attr(lengthdataname) || currentoptions.option.maxlength ) +'" />')
 					.css({ position: 'absolute', zIndex: currentoptions.option.zindex })
 					.html(currentoptions.option.innerhtml);
-				$optioninners[currentindex] = getdeepistchild($options[currentindex]);
+				$optioninners[currentindex] = getdeepestchild($options[currentindex]);
 
 				if ( defaultclass ) {
 					$titles[currentindex].addClass(defaultclass);
@@ -712,21 +718,24 @@
 				bounding = $titles[index][0].getBoundingClientRect(),
 				titlewidth = $titles[index][0].offsetWidth,
 				titleheight = $titles[index][0].offsetHeight,
-				width = Math.max(titlewidth, parseInt($currentoption.attr(widthdataname)) ),
+				width = $currentoption.attr(widthdataname),
 				height,
 				left = bounding.left+scrollleft-$doc[0].clientLeft,
 				top = bounding.top+scrolltop-$doc[0].clientTop,
 				maxlength = parseInt($currentoption.attr(lengthdataname)),
 				optionsizes;
 
+
 			setoptions(index);
 			$currentoption.css('visibility', 'hidden').appendTo($body);
+
+			width = Math.max(titlewidth, width == 'auto' ? $currentoption[0].offsetWidth : parseInt(width));
 
 			if ( options[index].option.widthminus === undefined ) {
 				options[index].option.widthminus = getinfluencewidthvalue($currentoption); 
 			}
 
-			$currentoption.css('width', width);
+			// $currentoption.css('width', width);
 			if ( maxlength >= $optionitems[index].length ) {
 				$currentoption.css({ height: '', overflow: 'hidden' });
 			} else {
@@ -871,7 +880,7 @@
 			if ( $titles[index] ) {
 				$select = $selects[index];
 				currentoptions = $select[0].options;
-				$titleinners[index].html(( currentoptions.length )? currentoptions[currentoptions.selectedIndex].text : '');
+				$titleinners[index].html(( currentoptions.length )? currentoptions[currentoptions.selectedIndex].text.replace(/</g, '&lt;') : '');
 				if ( withwidth ) {
 					$titles[index].css('width', ( $select[0].offsetWidth || getcsswidth($select[0]) || options[index].title.defaultwidth ) - options[index].title.widthminus);
 				}
@@ -891,7 +900,7 @@
 			}
 		}
 
-		function getdeepistchild($target) {
+		function getdeepestchild($target) {
 			while ( $target.children().length ) {
 				$target = $target.children().eq(0);
 			}
@@ -917,7 +926,7 @@
 			return defaultoption;
 		}
 		for ( key in defaultoption ) {
-			if ( typeof(key) == 'string' ) {
+			if ( typeof(defaultoption[key]) == 'string' ) {
 				if ( _option[key] === undefined ) {
 					_option[key] = _option[key] || defaultoption[key];
 				}
