@@ -369,11 +369,13 @@
 		}
 
 		function onlabelhover() {
-			ontargetfocus.call($('#'+this.htmlFor)[0]);
+			var element = document.getElementById(this.htmlFor);
+			element && ontargetfocus.call(element);
 		}
 
 		function onlabelleave() {
-			ontargetblur.call($('#'+this.htmlFor)[0]);
+			var element = document.getElementById(this.htmlFor);
+			element && ontargetblur.call(element);
 		}
 
 		function onfakeclick() {
@@ -917,7 +919,7 @@
 	}
 
 	function getindex(target) {
-		return parseInt(target.getAttribute(indexdataname));
+		return parseInt((target.fakeform ? target[0] : target).getAttribute(indexdataname));
 	}
 
 	function overrideoption(flag, _option) {
@@ -952,4 +954,3 @@
 	}
 
 })(window.jQuery);
-
