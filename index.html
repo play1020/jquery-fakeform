@@ -22,98 +22,96 @@ $(function() {
 </script>
 
 <style>
-html, body, fieldset, legend, p { margin: 0; padding: 0; }
-html, body { height: 100%; }
-body { background: #fff; }
-body:after { height: 50px; content: ''; display: block; }
-body, input, textarea { font-family: 돋움, dotum; font-size: 12px; color: #555; line-height: 1.55em; }
-h1 { font-family: 'verdana'; font-size: 22px; font-weight: normal; color: #000; margin: 30px 20px 0; padding: 0 0 20px; }
-h1 span { font-size: 14px; color: #999; }
-h2 { font-family: 'verdana'; font-size: 15px; font-weight: normal; color: #000; margin: 70px 20px -10px; padding: 0 0 7px; border-bottom: 2px solid #aaa; }
-fieldset { clear: both; margin: 30px 20px; border: 1px solid #aaa; box-shadow: 0 2px 0 #eee; overflow: hidden; }
-fieldset legend { color: #999; margin: 0 5px; padding: 5px; }
-fieldset legend strong { color: #0068b7; letter-spacing: -0.05em; }
-fieldset legend em { font-style: normal; color: #ec6941; }
-fieldset .padding { padding: 5px 15px 13px; }
-fieldset .padding pre { margin: 10px 0 10px; }
-fieldset .padding pre:before { display: none; }
-fieldset.supports { padding: 0; }
-fieldset.supports .padding { padding: 0 10px 10px; }
-fieldset.supports .padding pre { margin: 0; }
-fieldset .buttons { margin-top: 5px; }
-label { margin-right: 6px; }
-select { font-size: 11px; color: #666; }
+html, body, fieldset, legend, p {margin: 0; padding: 0;}
+html, body {height: 100%;}
+body {background: #fff; overflow: auto;}
+body:after {height: 50px; content: ''; display: block;}
+body, input, textarea {font-family: 'Helvetica Neue', 'AppleSDGothicNeo', 'Helvetica-UltraLight', '맑은 고딕', 'Malgun Gothic', '나눔고딕', '돋움', 'dotum'; font-size: 13px; color: #555; line-height: 1.55em;}
+h1 {font-family: 'verdana'; font-size: 22px; font-weight: normal; color: #000; margin: 30px 20px 0; padding: 0 0 20px;}
+h1 span {font-size: 14px; color: #999;}
+h2 {font-family: 'verdana'; font-size: 15px; font-weight: normal; color: #000; margin: 70px 20px -10px; padding: 0 0 7px; border-bottom: 2px solid #aaa;}
+fieldset {clear: both; margin: 30px 20px; border: 1px solid #aaa; box-shadow: 0 2px 0 #eee; overflow: hidden;}
+fieldset legend {color: #999; margin: 0 5px; padding: 5px;}
+fieldset legend strong {color: #0068b7; letter-spacing: -0.05em;}
+fieldset legend em {font-style: normal; color: #ec6941;}
+fieldset .padding {padding: 5px 15px 13px;}
+fieldset .padding pre {margin: 10px 0 10px;}
+fieldset .padding pre:before {display: none;}
+fieldset.supports {padding: 0;}
+fieldset.supports .padding {padding: 0 10px 10px;}
+fieldset.supports .padding pre {margin: 0;}
+fieldset .buttons {margin-top: 5px;}
+label {margin-right: 6px;}
+select {font-size: 11px; color: #666;}
 .textinputs input,
-.textinputs textarea { width: 150px; height: 1.6em; padding-left: 5px; border: 1px solid; border-color: #999 #bbb #bbb #999; }
-.textinputs textarea { width: 400px; height: 5.6em; padding-top: 3px; overflow: auto; }
+.textinputs textarea {width: 150px; height: 1.6em; padding-left: 5px; border: 1px solid; border-color: #999 #bbb #bbb #999;}
+.textinputs textarea {width: 400px; height: 5.6em; padding-top: 3px; overflow: auto;}
 
 
 
 
 
 /* fake form - placeholder */
-.placeholder { color: #bbb; }
+.placeholder {color: #bbb;}
 
 /* fake form - radio */
-.radio { width: 18px; height: 18px; vertical-align: -4px; margin-right: 3px; background: url('./radios.png') no-repeat; display: inline-block; }
-.radio.focus { background-position: 0 -33px; }
-.radio.checked { background-position: 0 -66px; }
-.radio.disabled { background-position: 0 -99px; }
-.radio.checked.disabled { background-position: 0 -132px; }
+.radio {width: 18px; height: 18px; vertical-align: -4px; margin-right: 3px; background: url('./radios.png') no-repeat; display: inline-block;}
+.radio.focus {background-position: 0 -33px;}
+.radio.checked {background-position: 0 -66px;}
+.radio.disabled {background-position: 0 -99px;}
+.radio.checked.disabled {background-position: 0 -132px;}
 
 /* fake form - checkbox */
-.checkbox { width: 18px; height: 18px; vertical-align: -4px; margin-right: 3px; background: url('./checks.png') no-repeat; display: inline-block; }
-.checkbox.focus { background-position: 0 -33px; }
-.checkbox.checked { background-position: 0 -66px; }
-.checkbox.disabled { background-position: 0 -99px; }
-.checkbox.checked.disabled { background-position: 0 -132px; }
-.checkbox.colored { background-image: url('./checks2.png'); }
+.checkbox {width: 18px; height: 18px; vertical-align: -4px; margin-right: 3px; background: url('./checks.png') no-repeat; display: inline-block;}
+.checkbox.focus {background-position: 0 -33px;}
+.checkbox.checked {background-position: 0 -66px;}
+.checkbox.disabled {background-position: 0 -99px;}
+.checkbox.checked.disabled {background-position: 0 -132px;}
+.checkbox.colored {background-image: url('./checks2.png');}
 
 /* fake form - select */
-.select-title { color: #777; text-align: left; vertical-align: middle; padding: 4px 15px 4px 5px; border: 1px solid #999; background: #fff url('./selectarrow.png') no-repeat 100% 0; display: inline-block; -box-sizing: border-box; }
-.select-title strong { width: 100%; height: 1em; font-weight: normal; font-size: 11px; word-break: break-all; line-height: 1.2em; padding: 1px 0 2px; display: block; overflow: hidden; }
+.select-title {color: #777; text-align: left; vertical-align: middle; padding: 4px 15px 4px 5px; border: 1px solid #999; background: #fff url('./selectarrow.png') no-repeat 100% 0; display: inline-block; -box-sizing: border-box;}
+.select-title strong {width: 100%; height: 1em; font-weight: normal; font-size: 11px; word-break: break-all; line-height: 1.2em; padding: 1px 0 2px; display: block; overflow: hidden;}
 .select-title.focus,
-.select-title.active { color: #000; border-color: #333; }
-.select-title.focus { background-position: 100% -22px; }
-.select-title.active { background-position: 100% -44px; }
-.select-title.disabled { color: #999; text-shadow: 1px 1px 0 #fff; border-color: #bbb; background-color: #eee; }
-
-.select-option { border: 1px solid #333; background: #fff; overflow: auto; }
-.select-option ul { margin: 0; padding: 0; }
-.select-option li { list-style: none; }
+.select-title.active {color: #000; border-color: #333;}
+.select-title.focus {background-position: 100% -22px;}
+.select-title.active {background-position: 100% -44px;}
+.select-title.disabled {color: #999; text-shadow: 1px 1px 0 #fff; border-color: #bbb; background-color: #eee;}
+.select-option {border: 1px solid #333; background: #fff; overflow: auto;}
+.select-option ul {margin: 0; padding: 0;}
+.select-option li {list-style: none;}
 .select-option span,
-.select-option strong { height: 1.1em; font-size: 11px; font-weight: normal; color: #888; white-space: nowrap; text-overflow: ellipsis; line-height: 1.4; text-decoration: none; padding: 4px 5px 7px; display: block; overflow: hidden; cursor: default; }
-.select-option strong { font-weight: bold; color: #000; border-top: 1px solid #eee; border-bottom: 1px solid #ccc; }
-.select-option li li span { padding-left: 10px; }
+.select-option strong {height: 1.1em; font-size: 11px; font-weight: normal; color: #777; white-space: nowrap; text-overflow: ellipsis; line-height: 1.4; text-decoration: none; padding: 4px 5px 7px; display: block; overflow: hidden; cursor: default;}
+.select-option strong {font-weight: bold; color: #000; border-top: 1px solid #eee; border-bottom: 1px solid #ccc;}
+.select-option li li span {padding-left: 10px;}
 .select-option span:hover,
-.select-option span.selected { color: #000; background: #eee; }
+.select-option span.selected {color: #000; background: #eee;}
 .select-option .disabled span,
-.select-option .disabled strong { color: #bbb; text-decoration: line-through; background: none; }
+.select-option .disabled strong {color: #bbb; text-decoration: line-through; background: none;}
 
 
 
 
 
 /* code highlight */
-button.codes { margin: -20px 20px 0; display: block; }
-div.codes { margin-top: -10px; padding: 10px 20px 0; display: none; }
-pre { position: relative; color: #f8f8f2; line-height: 1.5; padding: 0.75em 1.2em; border: 1px solid #464741; background: #272822; overflow: auto; -webkit-overflow-scrolling: touch; }
-pre:before { position: absolute; right: 0; top: 0; font-size: 10px; content: attr(data-type); color: #272822; text-transform: uppercase; padding: 0 0.3em; background: #fff; opacity: 0.9; }
-pre+pre { margin-top: 10px; }
-pre code .tag { color: #f92770; }
-pre code .attribute { color: #a6e22d; }
-pre code .attributevalue { color: #dadb74; }
-pre code .functionvar { color: #64d6ef; }
-pre code .functionname { color: #a6e22a; }
-pre code .functionargument { color: #fd9720; }
-pre code .conditions { color: #f92772; }
-pre code .boolean { color: #ab7ff7; }
+button.codes {margin: -20px 20px 0; display: block;}
+div.codes {margin-top: -10px; padding: 10px 20px 0; display: none;}
+pre {position: relative; color: #f8f8f2; line-height: 1.5; padding: 0.75em 1.2em; border: 1px solid #464741; background: #272822; overflow: auto; -webkit-overflow-scrolling: touch;}
+pre:before {position: absolute; right: 0; top: 0; font-size: 10px; content: attr(data-type); color: #272822; text-transform: uppercase; padding: 0 0.3em; background: #fff; opacity: 0.9;}
+pre+pre {margin-top: 10px;}
+pre code .tag {color: #f92770;}
+pre code .attribute {color: #a6e22d;}
+pre code .attributevalue {color: #dadb74;}
+pre code .functionvar {color: #64d6ef;}
+pre code .functionname {color: #a6e22a;}
+pre code .functionargument {color: #fd9720;}
+pre code .conditions {color: #f92772;}
+pre code .boolean {color: #ab7ff7;}
 pre code .string,
-pre code .string * { color: #e6db72; }
+pre code .string * {color: #e6db72;}
 pre code .comment,
-pre code .comment * { color: #6c6d5e; }
-pre code .focus { font-style: italic; -text-decoration: underline; border-radius: 3px; background: #49483e; display: inline-block; outline: 1px solid #222218; }
-
+pre code .comment * {color: #6c6d5e;}
+pre code .focus {font-style: italic; -text-decoration: underline; border-radius: 3px; background: #49483e; display: inline-block; outline: 1px solid #222218;}
 </style>
 </head>
 
@@ -136,7 +134,8 @@ pre code .focus { font-style: italic; -text-decoration: underline; border-radius
 	지원함수들도 fakeform 함수 하나를 통해서 실행할 수 있음.
 	<pre data-type="js"><code>$('select')[[.fakeselect()]];
 $('input[type="radio"], input[type="checkbox"]')[[.fakecheck()]];
-$('textarea, input').not('[type="radio"], [type="checkbox"]')[[.fakeplaceholder()]];</code></pre>
+</code></pre>
+<!-- $('textarea, input').not('[type="radio"], [type="checkbox"]')[[.fakeplaceholder()]];</code></pre> -->
 
 	</div>
 </fieldset>
@@ -144,10 +143,10 @@ $('textarea, input').not('[type="radio"], [type="checkbox"]')[[.fakeplaceholder(
 
 
 
-<h2>.fakeplaceholder()</h2>
+<!-- <h2>.fakeplaceholder()</h2> -->
 
 <!-- 기본 -->
-<fieldset>
+<!-- <fieldset>
 	<legend><strong>기본</strong></legend>
 	<div class="padding textinputs">
 
@@ -165,12 +164,12 @@ $('textarea, input').not('[type="radio"], [type="checkbox"]')[[.fakeplaceholder(
 &lt;input type="text" placeholder="안내 문구" value="값이 미리 지정되어 있을 때">
 
 &lt;textarea placeholder="안내 문구">&lt;/textarea></code></pre>
-</div>
+</div> -->
 <!-- 기본 //-->
 
 
 <!-- readonly 상태일 때 -->
-<fieldset>
+<!-- <fieldset>
 	<legend><strong>readonly 상태일 때</strong>(변경 후 <em>$().fakeplaceholder()</em> 함수 실행)</legend>
 	<div class="padding textinputs">
 
@@ -189,7 +188,7 @@ $('textarea, input').not('[type="radio"], [type="checkbox"]')[[.fakeplaceholder(
 
 &lt;button onclick="$('#inputtextreadonly').val('값이 변경 됨')[[.fakeplaceholder()]]">readonly 일때 value 변경&lt;/button>
 &lt;button onclick="$('#inputtextreadonly').val('')[[.fakeplaceholder()]]">readonly 일때 value 제거&lt;/button></code></pre>
-</div>
+</div> -->
 <!-- readonly 상태일 때 //-->
 
 
@@ -212,10 +211,8 @@ $()[[.fakecheck()]]; // 외부에서 값을 변경하는 등의 처리를 했을
 
 <!-- 기본 -->
 <fieldset>
-	<legend><strong>기본</strong>(라디오 버튼은 form과 name이 제대로 지정되어 있어야 동작. 첫번째 요소 변경 시 현재 상태 alert)</legend>
+	<legend><strong>기본</strong>(첫번째 요소 변경 시 현재 상태 alert)</legend>
 	<div class="padding">
-
-	<form name="asdf">
 
 	<input type="radio" id="radio1-1" name="radio1" checked="checked">
 	<label for="radio1-1">라디오 버튼 1-1</label>
@@ -233,8 +230,6 @@ $()[[.fakecheck()]]; // 외부에서 값을 변경하는 등의 처리를 했을
 	<label for="check2">체크박스 2</label>
 	<input type="checkbox" id="check3" name="check3" disabled="disabled">
 	<label for="check3">체크박스 3(disabled)</label>
-
-	</form>
 
 	</div>
 </fieldset>
@@ -269,15 +264,11 @@ $('input#check1').click(function() {
 	<legend><strong>디자인 변경</strong>(해당 input 엘리먼트에 CSS 클래스를 지정하면 대체 요소에도 추가됨)</legend>
 	<div class="padding">
 
-	<form name="asdf">
-
 	<input type="checkbox" id="check-design1" name="check-design1" class="colored" checked="checked">
 	<label for="check-design1">체크박스 디자인 변경</label>
 
 	<input type="checkbox" id="check-design2" name="check-design2" class="colored" checked="checked" disabled="disabled">
 	<label for="check-design2">체크박스 디자인 변경(disabled)</label>
-
-	</form>
 
 	</div>
 </fieldset>
@@ -297,19 +288,17 @@ $('input#check1').click(function() {
 	<legend><strong>fakecheck 적용/제거</strong>(적용 시 <em>$().fakecheck()</em> 제거 시 <em>$().fakecheck('remove')</em> 함수 실행)</legend>
 	<div class="padding">
 
-	<form>
-
-	<input type="radio" id="radio-toggle-1" name="radio-toggle">
+	<input type="radio" id="radio-toggle-1" name="radio-toggle" checked="checked">
 	<label for="radio-toggle-1">라디오 버튼 1</label>
 	<input type="radio" id="radio-toggle-2" name="radio-toggle">
 	<label for="radio-toggle-2">라디오 버튼 2</label>
 	<input type="radio" id="radio-toggle-3" name="radio-toggle">
 	<label for="radio-toggle-3">라디오 버튼 3</label>
 
-	<input type="checkbox" id="check-toggle" name="check-toggle">
+	<input type="checkbox" id="check-toggle" checked="checked">
 	<label for="check-toggle">체크박스 레이블</label>
-
-	</form>
+	<input type="checkbox" id="check-toggle">
+	<label for="check-toggle">체크박스 레이블</label>
 
 	<p class="buttons">
 		<button onclick="togglefakecheck.add();">fakecheck 적용</button>
@@ -365,18 +354,17 @@ $('input#check1').click(function() {
 	<legend><strong>disabled 속성 변경</strong>(속성을 제거할 때 <em>$().fakecheck('enable')</em>, 지정할 때 <em>$().fakecheck('disable')</em> 함수 사용. 또는 직접 지정 후 <em>$().fakecheck()</em> 함수 실행)</legend>
 	<div class="padding">
 
-	<form>
-
-	<input type="radio" id="radio-toggledisable-1" name="radio-toggledisable">
+	<input type="radio" id="radio-toggledisable-1" name="radio-toggledisable" checked="checked">
 	<label for="radio-toggledisable-1">라디오 버튼 레이블</label>
 
 	<input type="radio" id="radio-toggledisable-2" name="radio-toggledisable">
 	<label for="radio-toggledisable-2">라디오 버튼 레이블</label>
 
-	<input type="checkbox" id="check-toggledisable" name="check-toggledisable">
+	<input type="checkbox" id="check-toggledisable" checked="checked">
 	<label for="check-toggledisable">체크박스 레이블</label>
 
-	</form>
+	<input type="checkbox" id="check-toggledisable">
+	<label for="check-toggledisable">체크박스 레이블</label>
 
 	<p class="buttons">
 		<button onclick="$('#radio-toggledisable-1, #radio-toggledisable-2, #check-toggledisable').fakecheck( ( $('#check-toggledisable').attr('disabled') )? 'enable' : 'disable');">disabled속성 변경</button>
@@ -402,8 +390,6 @@ $('input#check1').click(function() {
 <fieldset>
 	<legend><strong>외부 제어</strong>(값을 지정한 후 <em>$().fakecheck()</em> 함수 실행)</legend>
 	<div class="padding">
-
-	<form>
 
 	<input type="radio" id="radio-out-control-1" name="radio-out-control" checked="checked">
 	<label for="radio-out-control-1">라디오 버튼 1</label>
@@ -432,8 +418,6 @@ $('input#check1').click(function() {
 	<p class="buttons">
 		<button type="button" onclick="outcontrol_checks();">전체 선택/해제</button>
 	</p>
-
-	</form>
 
 	<script>
 	var outcontrol_radios = (function() {
@@ -563,7 +547,7 @@ $()[[.fakeselect()]]; // 외부에서 값을 변경하는 등의 처리를 했�
 		<option>옵션 3</option>
 		<option>옵션 4</option>
 		<option>옵션 5</option>
-		<option>옵션 6</option>
+		<option selected>옵션 6</option>
 		<option>옵션 7</option>
 		<option>옵션 8</option>
 		<option>옵션 9</option>
@@ -895,6 +879,37 @@ $()[[.fakeselect()]]; // 외부에서 값을 변경하는 등의 처리를 했�
 <!-- disabled 속성 변경 //-->
 
 
+<!-- readonly 속성 변경 -->
+<fieldset>
+	<legend><strong>readonly 속성 변경</strong> 속성 지정 후 <em>$().fakeselect()</em>)</legend>
+	<div class="padding">
+
+	<select id="ex-readonly" readonly="readonly">
+		<option>옵션 1</option>
+		<option>옵션 2</option>
+		<option>옵션 3</option>
+	</select>
+
+	<br>
+
+	<p class="buttons">
+		<button onclick="$('#ex-readonly').attr('readonly') ? $('#ex-readonly').removeAttr('readonly') : $('#ex-readonly').attr('readonly', 'readonly');$('#ex-readonly').fakeselect();">readonly속성 변경</button>
+	</p>
+
+	</div>
+</fieldset>
+<button type="button" class="codes">View code ↓</button>
+<div class="codes">
+<pre data-type="html"><code>&lt;select id="ex-readonly" readonly="readonly">
+	&lt;option>옵션 1&lt;/option>
+	...
+&lt;/select>
+
+&lt;button onclick="$('#ex-readonly').attr('readonly') ? $('#ex-readonly').removeAttr('readonly') : $('#ex-readonly').attr('readonly', 'readonly');$('#ex-readonly').fakeselect();">disabled속성 변경&lt;/button></code></pre>
+</div>
+<!-- disabled 속성 변경 //-->
+
+
 <!-- 셀렉트박스 옵션 변경 -->
 <fieldset>
 	<legend><strong>셀렉트박스 옵션 변경</strong>(옵션값 변경 후 <em>$().fakeselect()</em> 함수 실행)</legend>
@@ -983,7 +998,6 @@ $()[[.fakeselect()]]; // 외부에서 값을 변경하는 등의 처리를 했�
 
 
 <script>
-
 // toggle code
 // 버튼 토글.
 $('button.codes').each(function() {
@@ -1002,7 +1016,6 @@ $('button.codes').each(function() {
 		}
 	});
 })
-
 // syntax highlight
 function highlight() {
 	var type = this.getAttribute('data-type'),

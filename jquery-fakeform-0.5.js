@@ -1,4 +1,3 @@
-
 /*
 * form 요소에 디자인을 입히기 위한 대체 스크립트
 * Alternate script for form elements
@@ -144,15 +143,15 @@
 
 		}
 
-	}
+	};
 
 
 
 	'use strict';
 
-	if ( !$ || $.fn.fakeform ) {
+	if (!$ || $.fn.fakeform) {
 		return;
-	}
+	};
 
 	var
 		ismobile = document.ontouchstart !== undefined,
@@ -164,6 +163,8 @@
 		checkisnumber = /^[0-9]+$/,
 		indexdataname = 'data-fakeform-index',
 
+		animator = 'animate', // $.fn._animate ? '_animate' : 'animate',
+
 		boxsizingable = null;
 
 
@@ -171,7 +172,7 @@
 	$.fn.fakeform = function(_option, value) {
 		this.filter('select').fakeselect(_option, value);
 		this.filter('input[type="radio"], input[type="checkbox"]').fakecheck(_option, value);
-		this.filter('textarea, input').not('[type="radio"], [type="checkbox"]').fakeplaceholder(_option, value);
+		// this.filter('textarea, input').not('[type="radio"], [type="checkbox"]').fakeplaceholder(_option, value);
 		return this;
 	};
 
@@ -183,7 +184,7 @@
 
 		$.fn.fakeplaceholder = function(_option) {
 			return this.each(function() {
-				if ( $(this).data('placeholder') ) {
+				if ($(this).data('placeholder')) {
 					checkstates.call(this);
 				} else {
 					add(this, _option);
@@ -198,13 +199,13 @@
 
 			placeholder = target.getAttribute('placeholder');
 			currentoption = overrideoption('placeholder', _option);
-			if ( !placeholder || ( !currentoption.useall && supportplaceholder )) {
+			if (!placeholder || (!currentoption.useall && supportplaceholder)) {
 				return;
 			}
 
 			$currenttarget = $(target);
 			$currenttarget
-				.data({ placeholder: placeholder, classname: currentoption.classname })
+				.data({placeholder: placeholder, classname: currentoption.classname})
 				// .removeAttr('placeholder')
 				.bind('focus blur', checkstates);
 
@@ -216,13 +217,13 @@
 			var $target = $(this),
 				placeholder = $target.data('placeholder'),
 				classname = $target.data('classname'),
-				eventtype = ( e ) ? e.type : 'blur',
+				eventtype = (e) ? e.type : 'blur',
 				value = this.value;
-			if ( eventtype == 'focus' && value == placeholder && !this.readOnly ) {
+			if (eventtype == 'focus' && value == placeholder && !this.readOnly) {
 				$target.removeClass(classname);
 				this.value = '';
-			} else if ( eventtype == 'blur' ) {
-				if ( !value || value == placeholder ) {
+			} else if (eventtype == 'blur') {
+				if (!value || value == placeholder) {
 					$target.addClass(classname);
 					this.value = placeholder;
 				} else {
@@ -252,12 +253,12 @@
 
 
 		$.fn.fakecheck = function(_option) {
-			if ( !_option || $.isPlainObject(_option) ) {
+			if (!_option || $.isPlainObject(_option)) {
 				add(this, _option);
-			} else if ( typeof(_option) == 'string' && checkoptionnames.test(_option) ) {
+			} else if (typeof(_option) == 'string' && checkoptionnames.test(_option)) {
 				this.each(function() {
 					functions[_option].call(this);
-					if ( _option != 'reset' ) {
+					if (_option != 'reset') {
 						functions.reset.call(this);
 					}
 				});
@@ -273,9 +274,9 @@
 
 			remove: function() {
 				var index = getindex(this);
-				if ( $fakes[index] ) {
+				if ($fakes[index]) {
 					$fakes[index].remove();
-					$targets[index].removeAttr(indexdataname).css({ position: '', left: '' });
+					$targets[index].removeAttr(indexdataname).css({position: '', left: ''});
 					$targets[index] = $fakes[index] = null;
 				}
 			},
@@ -296,9 +297,9 @@
 				defaultclass, currenttype,
 				i = 0, max = _$targets.length;
 
-			for ( ; i < max; i++ ) {
+			for (; i < max; i++) {
 
-				if ( !checkischeckradio.test( _$targets[i].type ) ||checkisnumber.test( _$targets[i].getAttribute(indexdataname) ) ) {
+				if (!checkischeckradio.test(_$targets[i].type) ||checkisnumber.test(_$targets[i].getAttribute(indexdataname))) {
 					$(_$targets[i]).fakecheck('reset');
 					continue;
 				}
@@ -311,7 +312,7 @@
 				currentoptions = options[currentindex] = overrideoption(currenttype, _option);
 
 				$targets[currentindex] = $(_$targets[i]).attr(indexdataname, currentindex)
-					.css({ position: 'absolute', left: '-999em' })
+					.css({position: 'absolute', left: '-999em'})
 					.change(ontargetchange)
 					.focus(ontargetfocus)
 					.blur(ontargetblur);
@@ -328,7 +329,7 @@
 					.mouseenter(onlabelhover)
 					.mouseleave(onlabelleave);
 
-				if ( defaultclass ) {
+				if (defaultclass) {
 					$fakes[currentindex].addClass(defaultclass);
 				}
 
@@ -340,14 +341,14 @@
 
 		function ontargetchange() {
 			var group, i, max, index = getindex(this);
-			if ( checkisnumber.test(index) ) {
+			if (checkisnumber.test(index)) {
 				checkdisabled(this);
 			}
-			if ( this.type == 'checkbox' ) {
+			if (this.type == 'checkbox') {
 				$fakes[index] && $fakes[index][(this.checked)? 'addClass' : 'removeClass'](options[index].classname.checked);
-			} else if ( this.type == 'radio' && this.form && this.name ) {
-				group = this.form[this.name];
-				for ( i = 0, max = group.length; i < max; i++ ) {
+			} else if (this.type == 'radio' && this.name) {
+				group = document.getElementsByName(this.name);
+				for (i = 0, max = group.length; i < max; i++) {
 					index = getindex(group[i]); 
 					$fakes[index] && $fakes[index][(group[i].checked)? 'addClass' : 'removeClass'](options[index].classname.checked);
 				}
@@ -356,14 +357,14 @@
 
 		function ontargetfocus() {
 			var index = getindex(this);
-			if ( $fakes[index] ) {
+			if ($fakes[index]) {
 				$fakes[index].addClass(options[index].classname.focus);
 			}
 		}
 
 		function ontargetblur() {
 			var index = getindex(this);
-			if ( $fakes[index] ) {
+			if ($fakes[index]) {
 				$fakes[index].removeClass(options[index].classname.focus);
 			}
 		}
@@ -378,22 +379,25 @@
 			element && ontargetblur.call(element);
 		}
 
-		function onfakeclick() {
+		function onfakeclick(e) {
 			var $target = $targets[getindex(this)];
-			if ( !$target[0].disabled ) {
-				if ( $target[0].type == 'radio' ) {
-					$target[0].checked = 'checked';
-					ontargetchange.call($target[0]);
+			if (!$target[0].disabled) {
+				if ($target[0].type == 'radio') {
+					if (!$target[0].checked) {
+						$target[0].checked = 'checked';
+						ontargetchange.call($target[0]);
+						$target.change();
+					}
 				}
-				$target.click();
+				$target.trigger('click', e);
 			}
-			return false;
+			// return false;
 		}
 
 		function checkdisabled(target) {
 			var index = getindex(target);
-			if ( $fakes[index] ) {
-				$fakes[index][( target.disabled )? 'addClass' : 'removeClass'](options[index].classname.disabled);
+			if ($fakes[index]) {
+				$fakes[index][(target.disabled)? 'addClass' : 'removeClass'](options[index].classname.disabled);
 			}
 		}
 
@@ -411,12 +415,14 @@
 			$optioninners = [],
 			$optionitems = [],
 
+			$focusedtitle = null,
+
 			checkoptionnames = /^(reset|value|show|hide|remove|disable|enable)$/,
 			checkeffectnames = /^(fade|slide|fade&slide)$/,
 
 			options = [],
 			displayed = [],
-			nowdisplayed = -1,
+			displayedindex = -1,
 			currentindex = -1,
 
 			hidedataname = 'data-fakeselect-hide',
@@ -426,18 +432,18 @@
 			functions,
 
 			anioption = {
-				show: { duration: 175 },
-				hide: { duration: 100, complete: removeme }
+				show: {duration: 175},
+				hide: {duration: 100, complete: removeme}
 			};
 
 
 		$.fn.fakeselect = function(_option, value) {
-			if ( !_option || $.isPlainObject(_option) ) {
+			if (!_option || $.isPlainObject(_option)) {
 				add(this, _option);
-			} else if ( typeof(_option) == 'string' && checkoptionnames.test(_option) ) {
+			} else if (typeof(_option) == 'string' && checkoptionnames.test(_option)) {
 				this.each(function() {
 					functions[_option].call(this, value);
-					if ( _option != 'reset' ) {
+					if (_option != 'reset') {
 						functions.reset.call(this);
 					}
 				});
@@ -458,7 +464,7 @@
 			show: function() {
 				var index = getindex(this);
 				$(this).show();
-				if ( $titles[index] ) {
+				if ($titles[index]) {
 					settitletext(index);
 					$titles[index].show();
 				}
@@ -467,17 +473,17 @@
 			hide: function() {
 				var index = getindex(this);
 				$(this).hide();
-				if ( $titles[index] ) {
+				if ($titles[index]) {
 					$titles[index].hide();
 				}
 			},
 
 			remove: function() {
 				var index = getindex(this);
-				if ( $titles[index] ) {
+				if ($titles[index]) {
 					$titles[index].remove();
 					$options[index].remove();
-					$selects[index].removeAttr(indexdataname).css({ position: '', left: '' });
+					$selects[index].removeAttr(indexdataname).css({position: '', left: ''});
 					$selects[index] = $titles[index] = $titleinners[index] = $options[index] = $optioninners[index] = $optionitems[index] = null;
 				}
 			},
@@ -492,6 +498,7 @@
 
 		};
 
+		$doc.bind('keydown', keydownaction);
 		$doc.bind('click', closeopenedoption);
 		$win.bind('resize', closeopenedoption);
 
@@ -504,9 +511,9 @@
 
 			setbody();
 
-			for ( ; i < max; i++ ) {
+			for (; i < max; i++) {
 
-				if ( checkisnumber.test( _$selects[i].getAttribute(indexdataname) ) ) {
+				if (checkisnumber.test(_$selects[i].getAttribute(indexdataname))) {
 					$(_$selects[i]).fakeselect('reset');
 					continue;
 				}
@@ -517,14 +524,13 @@
 
 				currentoptions = options[currentindex] = overrideoption('select', _option);
 
-				if ( ismobile && !currentoptions.useinmobile ) {
+				if (ismobile && !currentoptions.useinmobile) {
 					continue;
 				}
 
 				$selects[currentindex] = $(_$selects[i]).attr(indexdataname, currentindex)
-					.css({ position: 'absolute', left: '-999em' })
+					.css({position: 'absolute', left: '-999em'})
 					.change(onselectchange)
-					.keydown(onselectkeydown)
 					.focus(onselectfocus)
 					.blur(onselectblur);
 
@@ -534,7 +540,7 @@
 					.click(ontitleclick)
 					.insertBefore($selects[currentindex]);
 
-				if ( $selects[currentindex].css('display') == 'none' ) {
+				if ($selects[currentindex].css('display') == 'none') {
 					$titles[currentindex].hide();
 				}
 
@@ -545,12 +551,12 @@
 				$selects[currentindex].insertBefore($titles[currentindex]);
 				$titles[currentindex].before(' ');
 
-				$options[currentindex] = $('<'+ currentoptions.option.tagname +' class="'+ currentoptions.option.classname.base +'" '+ widthdataname +'="'+ ( $selects[currentindex].attr(widthdataname) || ( currentoptions.option.autowidth ? 'auto' : 0 ) ) +'" '+ lengthdataname +'="'+ ( $selects[currentindex].attr(lengthdataname) || currentoptions.option.maxlength ) +'" />')
-					.css({ position: 'absolute', zIndex: currentoptions.option.zindex })
+				$options[currentindex] = $('<'+ currentoptions.option.tagname +' class="'+ currentoptions.option.classname.base +'" '+ widthdataname +'="'+ ($selects[currentindex].attr(widthdataname) || (currentoptions.option.autowidth ? 'auto' : 0)) +'" '+ lengthdataname +'="'+ ($selects[currentindex].attr(lengthdataname) || currentoptions.option.maxlength) +'" />')
+					.css({position: 'absolute', zIndex: currentoptions.option.zindex})
 					.html(currentoptions.option.innerhtml);
 				$optioninners[currentindex] = getdeepestchild($options[currentindex]);
 
-				if ( defaultclass ) {
+				if (defaultclass) {
 					$titles[currentindex].addClass(defaultclass);
 					$options[currentindex].addClass(defaultclass);
 				}
@@ -559,6 +565,7 @@
 
 				settitletext(currentindex, true);
 				checkdisabled($selects[currentindex][0]);
+				checkreadonly($selects[currentindex][0]);
 
 			}
 
@@ -566,25 +573,10 @@
 
 		function onselectchange(fromreset) {
 			var index = getindex(this);
-			if ( checkisnumber.test(index) ) {
+			if (checkisnumber.test(index)) {
 				checkdisabled(this);
+				checkreadonly(this);
 				settitletext(index, fromreset === true);
-			}
-		}
-
-		function onselectkeydown(e) {
-			var keycode = e.keyCode,
-				index, options, selectedindex;
-			if ( keycode == 38 || keycode == 40 ) {
-				index = getindex(this);
-				options = $selects[index][0].options;
-				selectedindex = options.selectedIndex;
-				if ( keycode == 38 && selectedindex > 0 ) {
-					setselected(index, selectedindex-1);
-				} else if ( keycode == 40 && options.length-1 > selectedindex ) {
-					setselected(index, selectedindex+1);
-				}
-				return false;
 			}
 		}
 
@@ -595,16 +587,18 @@
 
 		function onselectfocus(e) {
 			var index = getindex(this);
-			if ( $titles[index] ) {
+			if ($titles[index]) {
 				$titles[index].addClass(options[index].title.classname.focus);
+				$focusedtitle = $titles[index];
 			}
 		}
 
 		function onselectblur(e) {
 			var index = getindex(this);
-			if ( $titles[index] ) {
+			if ($titles[index]) {
 				$titles[index].removeClass(options[index].title.classname.focus);
 			}
+			$focusedtitle = null;
 		}
 
 		function selectactiontotitle(e) {
@@ -612,21 +606,61 @@
 			$selects[index][e.type]();
 		}
 
+		function keydownaction(e) {
+			var keycode = e.keyCode,
+				index, selectoptions, selectedindex, newindex;
+			if (keycode == 32) { // toggle open/close
+				if ($focusedtitle) {
+					$focusedtitle.click();
+					return false;
+				} else if (displayedindex > -1) {
+					closeopenedoption();
+					return false;
+				}
+			} else if (keycode == 38 || keycode == 40) {
+				index = displayedindex > -1 ? displayedindex : $focusedtitle ? getindex($focusedtitle) : -1;
+				if (index > -1 && !$selects[index][0].getAttribute('readonly')) {
+					selectoptions = $selects[index][0].options;
+					selectedindex = newindex = selectoptions.selectedIndex;
+					if (keycode == 38 && selectedindex > 0) {
+						newindex = selectedindex-1;
+						while(newindex > -1 && (amidisabled(selectoptions[newindex]) || selectoptions[newindex].getAttribute(hidedataname))) {
+							newindex--;
+						}
+					} else if (keycode == 40 && selectoptions.length-1 > selectedindex) {
+						newindex = selectedindex+1;
+						while(selectoptions.length > newindex && (amidisabled(selectoptions[newindex]) || selectoptions[newindex].getAttribute(hidedataname))) {
+							newindex++;
+						}
+					}
+					if (newindex != selectedindex && selectoptions[newindex]) {
+						setselected(index, newindex);
+						if (displayedindex > -1) {
+							$optioninners[index].find('span').removeClass(options[index].option.classname.selected)
+							setselectedoptionvisible(index, selectoptions.selectedIndex);
+						}
+					}
+					return false;
+				}
+			} else if (keycode == 9 || keycode == 13 || keycode == 27) {
+				closeopenedoption();
+			}
+		}
+
 		function ontitleclick(e) {
 
 			var index = getindex(this);
 
-			if ( $selects[index][0].disabled ) {
+			if ($selects[index][0].disabled || $selects[index][0].getAttribute('readonly')) {
 				return false;
 			}
 
-			if ( displayed[index] ) {
+			if (displayed[index]) {
 				optionclose(index);
-				!ismobile && $selects[index].focus();
 				return false;
 			}
 
-			if ( !$options[index][0].offsetWidth ) {
+			if (!$options[index][0].offsetWidth) {
 				addoptionlayer(index);
 			}
 
@@ -639,73 +673,81 @@
 		}
 
 		function optionshow(index) {
-			var $currentoption = $options[index].stop(true),
+
+			var $currentoption = $options[index],
 				effect = options[index].effect.show,
 				height = $currentoption[0].clientHeight,
 				animateto;
-			if ( checkeffectnames.test(effect) ) {
+
+			$currentoption.css('height', '').stop(true);
+
+			if (checkeffectnames.test(effect)) {
 				$currentoption.css('visibility', 'visible');
-				if ( effect == 'fade' ) {
-					animateto = { opacity: 1 };
-					$currentoption.css('opacity', 0);
-				} else if ( effect == 'slide' ) {
-					animateto = { height: height };
-					$currentoption.css({ height: 0, opacity: 1 });
-				} else if ( effect == 'fade&slide' ) {
-					animateto = { height: height, opacity: 1 };
-					$currentoption.css({ height: 0, opacity: 0 });
+				if (effect == 'fade') {
+					animateto = {opacity: 1};
+					$currentoption.css({height: height, opacity: 0});
+				} else if (effect == 'slide') {
+					animateto = {height: height};
+					$currentoption.css({height: 0, opacity: 1});
+				} else if (effect == 'fade&slide') {
+					animateto = {height: height, opacity: 1};
+					$currentoption.css({height: 0, opacity: 0});
 				}
-				if ( $currentoption.hasClass(options[index].option.classname.upper) &&
-					( effect == 'slide' || effect == 'fade&slide' ) ) {
+				if ($currentoption.hasClass(options[index].option.classname.upper) &&
+					(effect == 'slide' || effect == 'fade&slide')) {
 					animateto.top = parseInt($currentoption.css('top'));
 					$currentoption.css('top', animateto.top+height);
 				}
-				$currentoption.animate(animateto, anioption.show);
-			} else if ( typeof(effect) == 'function' ) {
-				effect.call($currentoption);
+				$currentoption[animator](animateto, anioption.show);
 			} else {
-				$currentoption.css('visibility', 'visible');
+				$currentoption.css({height: height, visibility: 'visible'});
+				if (typeof(effect) == 'function') {
+					effect.call($currentoption);
+				}
 			}
-			nowdisplayed = index;
+
+			displayedindex = index;
 			displayed[index] = true;
 			$titles[index].addClass(options[index].title.classname.active);
+			
 		}
 
 		function optionclose(index) {
 			var $currentoption = $options[index].stop(true),
 				effect = options[index].effect.hide || options[index].effect.show,
 				animateto;
-			if ( checkeffectnames.test(effect) ) {
-				if ( effect == 'fade' ) {
-					animateto = { opacity: 0 };
-				} else if ( effect == 'slide' ) {
-					animateto = { height: 1 };
-				} else if ( effect == 'fade&slide' ) {
-					animateto = { height: 0, opacity: 0 }
+			if (checkeffectnames.test(effect)) {
+				if (effect == 'fade') {
+					animateto = {opacity: 0};
+				} else if (effect == 'slide') {
+					animateto = {height: 1};
+				} else if (effect == 'fade&slide') {
+					animateto = {height: 0, opacity: 0}
 				}
-				if ( $currentoption.hasClass(options[index].option.classname.upper) &&
-					( effect == 'slide' || effect == 'fade&slide' ) ) {
+				if ($currentoption.hasClass(options[index].option.classname.upper) &&
+					(effect == 'slide' || effect == 'fade&slide')) {
 					animateto.top = $currentoption[0].offsetTop+$currentoption[0].offsetHeight;
 				}
-				$currentoption.animate(animateto, anioption.hide);
-			} else if ( typeof(effect) == 'function' ) {
+				$currentoption[animator](animateto, anioption.hide);
+			} else if (typeof(effect) == 'function') {
 				effect.call($currentoption);
 			} else {
 				$currentoption.detach();
 			}
-			nowdisplayed = -1;
+			displayedindex = -1;
 			displayed[index] = false;
 			$titles[index].removeClass(options[index].title.classname.active);
+			!ismobile && $selects[index].focus();
 		}
 
 		function closeopenedoption() {
-			if ( nowdisplayed > -1 && displayed[nowdisplayed] ) {
-				optionclose(nowdisplayed);
+			if (displayedindex > -1 && displayed[displayedindex]) {
+				optionclose(displayedindex);
 			}
 		}
 
 		function getinfluencewidthvalue($target) {
-			return ( boxsizingable && $target.css('boxSizing') == 'border-box' )? 0 : (parseInt($target.css('borderLeftWidth')) || 0) + (parseInt($target.css('borderRightWidth')) || 0) + parseInt($target.css('paddingLeft')) + parseInt($target.css('paddingRight'));
+			return (boxsizingable && $target.css('boxSizing') == 'border-box')? 0 : (parseInt($target.css('borderLeftWidth')) || 0) + (parseInt($target.css('borderRightWidth')) || 0) + parseInt($target.css('paddingLeft')) + parseInt($target.css('paddingRight'));
 		}
 
 		function addoptionlayer(index) {
@@ -729,17 +771,17 @@
 
 
 			setoptions(index);
-			$currentoption.css('visibility', 'hidden').appendTo($body);
+			$currentoption.css({width: '', visibility: 'hidden'}).appendTo($body);
 
 			width = Math.max(titlewidth, width == 'auto' ? $currentoption[0].offsetWidth : parseInt(width));
 
-			if ( options[index].option.widthminus === undefined ) {
+			if (options[index].option.widthminus === undefined) {
 				options[index].option.widthminus = getinfluencewidthvalue($currentoption); 
 			}
 
 			// $currentoption.css('width', width);
-			if ( maxlength >= $optionitems[index].length ) {
-				$currentoption.css({ height: '', overflow: 'hidden' });
+			if (maxlength >= $optionitems[index].length) {
+				$currentoption.css({height: '', overflow: 'hidden'});
 			} else {
 				$currentoption.css('overflow', '').css('height', getoptionheight(index, selectedindex, maxlength));
 			}
@@ -747,7 +789,7 @@
 			height = $currentoption[0].offsetHeight;
 
 			// check upper|lower position
-			if ( top+titleheight+height > docheight+scrolltop ) {
+			if (top+titleheight+height > docheight+scrolltop) {
 				top = top-height+options[index].option.upperposition;
 				$currentoption.addClass(options[index].option.classname.upper);
 			} else {
@@ -755,7 +797,7 @@
 				$currentoption.removeClass(options[index].option.classname.upper);
 			}
 
-			if ( width > titlewidth && left+width > docwidth+scrollleft ) {
+			if (width > titlewidth && left+width > docwidth+scrollleft) {
 				left -= width-titlewidth;
 			}
 
@@ -763,8 +805,9 @@
 					left: Math.max(0, left),
 					top: top,
 					width: width-options[index].option.widthminus
-				})
-				.scrollTop( getselectedoptiontop(index, selectedindex) );
+				});
+
+			setselectedoptionvisible(index, selectedindex);
 
 		}
 
@@ -772,9 +815,9 @@
 			var $currentoptionitems = $optionitems[index],
 				numoptions = $currentoptionitems.length,
 				heights = 0, itemheight, i = 0, max, j = 0;
-			for ( ; i < numoptions; i++ ) {
-				if ( $currentoptionitems[i].nodeName.toLowerCase() == 'span' ) {
-					if ( j == selectedindex ) {
+			for (; i < numoptions; i++) {
+				if ($currentoptionitems[i].nodeName.toLowerCase() == 'span') {
+					if (j == selectedindex) {
 						i = Math.max(0, Math.min(i, numoptions-maxlength));
 						max = Math.min(i+maxlength, numoptions);
 						break;
@@ -782,9 +825,9 @@
 					j++;
 				}
 			}
-			for ( ; i < max; i++ ) {
+			for (; i < max; i++) {
 				itemheight = $currentoptionitems[i].offsetHeight;
-				if ( !itemheight ) {
+				if (!itemheight) {
 					i--;
 					continue;
 				}
@@ -793,8 +836,19 @@
 			return heights;
 		}
 
-		function getselectedoptiontop(index, selectedindex) {
-			return $optioninners[index].find('span')[selectedindex].offsetTop;
+		function setselectedoptionvisible(index, selectedindex) {
+			
+			var $currentoption = $options[index],
+				$selectedoption = $optioninners[index].find('span').eq(selectedindex);
+
+			$selectedoption.addClass(options[index].option.classname.selected);
+
+			if (0 > $selectedoption[0].offsetTop-$currentoption[0].scrollTop) {
+				$currentoption[0].scrollTop = $selectedoption[0].offsetTop;
+			} else if ($selectedoption[0].offsetTop+$selectedoption[0].offsetHeight > $currentoption[0].offsetHeight+$currentoption[0].scrollTop) {
+				$currentoption[0].scrollTop = $selectedoption[0].offsetTop+$selectedoption[0].offsetHeight-$currentoption[0].offsetHeight;
+			}
+
 		}
 
 		function setoptions(index) {
@@ -803,19 +857,16 @@
 				optionsoption = options[index].option,
 				html = [];
 
-			if ( optionsoption.tagname.toLowerCase() != 'ul' ) {
+			if (optionsoption.tagname.toLowerCase() != 'ul') {
 				html = ['<ul>'];
 			}
-			html.push( getoptionhtml($selects[index]) );
-			if ( optionsoption.tagname.toLowerCase() != 'ul' ) {
+			html.push(getoptionhtml($selects[index]));
+			if (optionsoption.tagname.toLowerCase() != 'ul') {
 				html.push('</ul>');
 			}
-			$optioninners[index].html( html.join('') );
+			$optioninners[index].html(html.join(''));
 
 			$optioninners[index].find('span').each(function(i) {
-				if ( i == selectedindex ) {
-					$(this).addClass( options[index].option.classname.selected );
-				}
 				this.onclick = (function(index, i) {
 					return function(e) {
 						return onoptionclick(e, index, i);
@@ -831,19 +882,19 @@
 		function getoptionhtml($parent) {
 			var $children = $parent.children('option, optgroup'),
 				html = [], i = 0, max = $children.length;
-			for ( ; i < max; i++ ) {
+			for (; i < max; i++) {
 				html.push('<li');
-				if ( $children[i].disabled ) {
+				if ($children[i].disabled) {
 					html.push(' class="disabled"');
 				}
-				if ( $children[i].getAttribute(hidedataname) ) {
+				if ($children[i].getAttribute(hidedataname)) {
 					html.push(' style="display:none;"');
 				}
 				html.push('>');
-				if ( $children[i].nodeName.toLowerCase() == 'optgroup' ) {
+				if ($children[i].nodeName.toLowerCase() == 'optgroup') {
 					html.push('<strong class="', $children[i].className, '">', $children[i].label, '</strong>');
 					html.push('<ul>');
-						html.push( getoptionhtml($($children[i])) );
+						html.push(getoptionhtml($($children[i])));
 					html.push('</ul>');
 				} else {
 					html.push('<span class="', $children[i].className, '">', $children[i].innerHTML, '</span>');
@@ -854,12 +905,11 @@
 		}
 
 		function onoptionclick(e, index, optionindex) {
-			if ( amidisabled($selects[index][0].options[optionindex]) ) {
+			if (amidisabled($selects[index][0].options[optionindex])) {
 				stoppropagation(e);
 				return false;
 			}
 			setselected(index, optionindex);
-			!ismobile && $selects[index].focus();
 			return false;
 		}
 
@@ -868,8 +918,8 @@
 		}
 
 		function amidisabled(target) {
-			while( target.nodeName.toLowerCase() != 'select' ) {
-				if ( target.disabled ) {
+			while(target.nodeName.toLowerCase() != 'select') {
+				if (target.disabled) {
 					return true;
 				}
 				target = target.parentNode;
@@ -879,31 +929,38 @@
 
 		function settitletext(index, withwidth) {
 			var $select, currentoptions;
-			if ( $titles[index] ) {
+			if ($titles[index]) {
 				$select = $selects[index];
 				currentoptions = $select[0].options;
-				$titleinners[index].html(( currentoptions.length )? currentoptions[currentoptions.selectedIndex].text.replace(/</g, '&lt;') : '');
-				if ( withwidth ) {
-					$titles[index].css('width', ( $select[0].offsetWidth || getcsswidth($select[0]) || options[index].title.defaultwidth ) - options[index].title.widthminus);
+				$titleinners[index].html((currentoptions.length)? currentoptions[currentoptions.selectedIndex].text.replace(/</g, '&lt;') : '');
+				if (withwidth) {
+					$titles[index].css('width', ($select[0].offsetWidth || getcsswidth($select[0]) || options[index].title.defaultwidth) - options[index].title.widthminus);
 				}
 			}
 		}
 
 		function getcsswidth(select) {
 			var property = 'width',
-				value = ( select.currentStyle )? select.currentStyle[property] : document.defaultView.getComputedStyle(select, null)[property];
+				value = (select.currentStyle)? select.currentStyle[property] : document.defaultView.getComputedStyle(select, null)[property];
 			return parseInt(value) || 0;
 		}
 
 		function checkdisabled(select) {
 			var index = getindex(select);
-			if ( $titles[index] ) {
+			if ($titles[index]) {
 				$titles[index][(select.disabled)? 'addClass' : 'removeClass'](options[index].title.classname.disabled);
 			}
 		}
 
+		function checkreadonly(select) {
+			var index = getindex(select);
+			if ($titles[index]) {
+				$titles[index][(select.getAttribute('readonly'))? 'addClass' : 'removeClass'](options[index].title.classname.readonly);
+			}
+		}
+
 		function getdeepestchild($target) {
-			while ( $target.children().length ) {
+			while ($target.children().length) {
 				$target = $target.children().eq(0);
 			}
 			return $target;
@@ -913,7 +970,7 @@
 
 
 	function removeme() {
-		if ( this.parentNode ) {
+		if (this.parentNode) {
 			this.parentNode.removeChild(this);
 		}
 	}
@@ -924,18 +981,18 @@
 
 	function overrideoption(flag, _option) {
 		var key, inkey, defaultoption = defaultoptions[flag];
-		if ( !_option ) {
+		if (!_option) {
 			return defaultoption;
 		}
-		for ( key in defaultoption ) {
-			if ( typeof(defaultoption[key]) == 'string' ) {
-				if ( _option[key] === undefined ) {
+		for (key in defaultoption) {
+			if (typeof(defaultoption[key]) == 'string') {
+				if (_option[key] === undefined) {
 					_option[key] = _option[key] || defaultoption[key];
 				}
 			} else {
 				_option[key] = _option[key] || {};
-				for ( inkey in defaultoption[key] ) {
-					if ( _option[key][inkey] === undefined ) {
+				for (inkey in defaultoption[key]) {
+					if (_option[key][inkey] === undefined) {
 						_option[key][inkey] = defaultoption[key][inkey];
 					}
 				}
@@ -945,7 +1002,7 @@
 	}
 
 	function setbody() {
-		if ( !$body ) {
+		if (!$body) {
 			$body = $('<div style="width:100px;border:1px solid #fff;box-sizing:border-box;" />').appendTo(document.body);
 			boxsizingable = $body[0].offsetWidth == 100;
 			$body.remove();
